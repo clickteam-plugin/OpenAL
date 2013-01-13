@@ -78,10 +78,10 @@ int WINAPI DLLExport MakeIconEx ( mv _far *mV, cSurface* pIconSf, LPTSTR lpName,
 {
 #ifndef RUN_ONLY
 
-    pIconSf->Delete();
-    pIconSf->Clone(*SDK->Icon);
+	pIconSf->Delete();
+	pIconSf->Clone(*SDK->Icon);
 
-    pIconSf->SetTransparentColor(RGB(255, 0, 255));
+	pIconSf->SetTransparentColor(RGB(255, 0, 255));
 
    return 0;
 
@@ -102,13 +102,13 @@ int WINAPI DLLExport CreateObject(mv _far *mV, fpLevObj loPtr, LPEDATA edPtr)
 	// Check compatibility
 	if ( IS_COMPATIBLE(mV) )
 	{
-        Edif::Init(mV, edPtr);
+		Edif::Init(mV, edPtr);
 
 		// Set default object settings
 //		edPtr->swidth = 48;
 //		edPtr->sheight = 48;
 
-        return 0;
+		return 0;
 	}
 #endif // !defined(RUN_ONLY)
 
@@ -170,9 +170,9 @@ void WINAPI	DLLExport RemoveObject(mv _far *mV, fpLevObj loPtr, LPEDATA edPtr, u
 {
 #ifndef RUN_ONLY
 	// Is the last object removed?
-    if (0 == cpt)
+	if (0 == cpt)
 	{
-        Edif::Free(edPtr);
+		Edif::Free(edPtr);
 
 		// Do whatever necessary to remove our data
 	}

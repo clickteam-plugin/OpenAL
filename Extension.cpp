@@ -7,7 +7,7 @@
 ///
 
 Extension::Extension(LPRDATA _rdPtr, LPEDATA edPtr, fpcob cobPtr)
-    : rdPtr(_rdPtr), rhPtr(_rdPtr->rHo.hoAdRunHeader), Runtime(_rdPtr)
+	: rdPtr(_rdPtr), rhPtr(_rdPtr->rHo.hoAdRunHeader), Runtime(_rdPtr)
 {
 
 #ifdef _DEBUG
@@ -34,11 +34,11 @@ Extension::Extension(LPRDATA _rdPtr, LPEDATA edPtr, fpcob cobPtr)
 	Input.Recording = false;
 	Input.EnumeratedDevice = "";
 
-    //Set up the microphone input default settings.
-    Input.Bits = 16;
-    Input.Channels = 1;
-    Input.Frequency = 22050;
-    Input.BufferSamples = 1024;
+	//Set up the microphone input default settings.
+	Input.Bits = 16;
+	Input.Channels = 1;
+	Input.Frequency = 22050;
+	Input.BufferSamples = 1024;
 	Input.FFTSize = 256;
 
 	//Open the default device.
@@ -88,7 +88,7 @@ Extension::~Extension()
 		DeleteBuffer(&it->second);
 	}
 
-    //Close all open devices.
+	//Close all open devices.
 	CaptureDeviceClose();
 	DeviceClose();
 }
@@ -104,32 +104,32 @@ short Extension::Handle()
 
 short Extension::Display()
 {
-    return 0;
+	return 0;
 }
 
 short Extension::Pause()
 {
-    alcSuspendContext(Context);
-    return 0;
+	alcSuspendContext(Context);
+	return 0;
 }
 
 short Extension::Continue()
 {
-    alcProcessContext(Context);
-    return 0;
+	alcProcessContext(Context);
+	return 0;
 }
 
 bool Extension::Save(HANDLE File)
 {
 	bool OK = false;
 
-    #ifndef VITALIZE
+	#ifndef VITALIZE
 
-	    // Save the object's data here
+		// Save the object's data here
 
-	    OK = true;
+		OK = true;
 
-    #endif
+	#endif
 
 	return OK;
 }
@@ -138,13 +138,13 @@ bool Extension::Load(HANDLE File)
 {
 	bool OK = false;
 
-    #ifndef VITALIZE
+	#ifndef VITALIZE
 
-	    // Load the object's data here
+		// Load the object's data here
 
-	    OK = true;
+		OK = true;
 
-    #endif
+	#endif
 
 	return OK;
 }
@@ -164,7 +164,7 @@ long Extension::Condition(int ID, LPRDATA rdPtr, long param1, long param2)
 	char meh[100] = {0};
 	sprintf_s(meh, 100, "Condition %d unlinked (params: %d, %d)", ID, param1, param2);
 	MessageBox(0, meh, "Error", 0);
-    return false;
+	return false;
 }
 
 long Extension::Expression(int ID, LPRDATA rdPtr, long param)
@@ -172,7 +172,7 @@ long Extension::Expression(int ID, LPRDATA rdPtr, long param)
 	char meh[100] = {0};
 	sprintf_s(meh, 100, "Expression %d unlinked (params %d)", ID, param);
 	MessageBox(0, meh, "Error", 0);
-    return 0;
+	return 0;
 }
 
 bool Extension::GetError(const char* File, unsigned int Line)
@@ -181,7 +181,7 @@ bool Extension::GetError(const char* File, unsigned int Line)
 	printf("%s:%04d\n\t", File, Line);
 	ALenum Error = alGetError();
 	if(Error)
-        printf("OpenAL: %s (%#x)\n", alGetString(Error), Error);
+		printf("OpenAL: %s (%#x)\n", alGetString(Error), Error);
 	else if(strcmp("No error", alureGetErrorString()))
 		printf("Alure: %s\n", alureGetErrorString());
 	else
@@ -243,21 +243,21 @@ void Extension::LinkACE()
 	LinkAction(30, SetDistanceModel);
 	LinkAction(31, CaptureDeviceOpen);
 	LinkAction(32, EffectSetFloatParameter);
-    LinkAction(33, BufferCreateStreamForCapture);
-    LinkAction(34, CaptureStart);
-    LinkAction(35, CaptureStop);
+	LinkAction(33, BufferCreateStreamForCapture);
+	LinkAction(34, CaptureStart);
+	LinkAction(35, CaptureStop);
 	LinkAction(36, AuxEffectSlotSetAutoAdjust);
-    LinkAction(37, SourceSetSampleOffset);
-    LinkAction(38, SourceSetSecondOffset);
-    LinkAction(39, SourceSetDirection);
-    LinkAction(40, SourceSetConeAngles);
-    LinkAction(41, SourceSetConeOuterGain);
-    LinkAction(42, SourceSetRelative);
-    LinkAction(43, SourceSetMinimumGain);
-    LinkAction(44, SourceSetMaximumGain);
-    LinkAction(45, SourceSetReferenceDistance);
-    LinkAction(46, SourceSetMaximumDistance);
-    LinkAction(47, SourceSetRolloffFactor);
+	LinkAction(37, SourceSetSampleOffset);
+	LinkAction(38, SourceSetSecondOffset);
+	LinkAction(39, SourceSetDirection);
+	LinkAction(40, SourceSetConeAngles);
+	LinkAction(41, SourceSetConeOuterGain);
+	LinkAction(42, SourceSetRelative);
+	LinkAction(43, SourceSetMinimumGain);
+	LinkAction(44, SourceSetMaximumGain);
+	LinkAction(45, SourceSetReferenceDistance);
+	LinkAction(46, SourceSetMaximumDistance);
+	LinkAction(47, SourceSetRolloffFactor);
 	LinkAction(48, CaptureDeviceClose);
 	LinkAction(49, CaptureSetFrequency);
 	LinkAction(50, CaptureSetChannels);
@@ -301,8 +301,8 @@ void Extension::LinkACE()
 	LinkExpression(0, SourceByNameGetHandle);
 	LinkExpression(1, SourceByNameGetSecondOffset);
 	LinkExpression(2, SourceByNameGetSecondLength);
-    LinkExpression(3, SourceSelectedGetName);
-    LinkExpression(4, SourceSelectedGetHandle);
+	LinkExpression(3, SourceSelectedGetName);
+	LinkExpression(4, SourceSelectedGetHandle);
 	LinkExpression(5, BufferCallbackGetAddress);
 	LinkExpression(6, BufferCallbackGetBytes);
 	LinkExpression(7, CaptureDataGetAddress);

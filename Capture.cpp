@@ -3,8 +3,8 @@
 
 void Extension::CaptureRecalculateSettings()
 {
-    Input.BlockAlign = Input.Channels * Input.Bits / 8;
-    Input.Format = alureGetSampleFormat(Input.Channels, Input.Bits, 0);
+	Input.BlockAlign = Input.Channels * Input.Bits / 8;
+	Input.Format = alureGetSampleFormat(Input.Channels, Input.Bits, 0);
 }
 
 /* Actions */
@@ -60,16 +60,16 @@ void Extension::CaptureDeviceEnumerate()
 
 void Extension::CaptureStart()
 {
-    if(Input.Device && !Input.Recording)
+	if(Input.Device && !Input.Recording)
 	{
-        alcCaptureStart(Input.Device);
+		alcCaptureStart(Input.Device);
 		Input.Recording = true;
 	}
 }
 
 void Extension::CaptureStop()
 {
-    if(Input.Device && Input.Recording)
+	if(Input.Device && Input.Recording)
 	{
 		alcCaptureStop(Input.Device);
 		Input.Recording = false;

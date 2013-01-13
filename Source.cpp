@@ -38,7 +38,7 @@ void Extension::SourceCreateNamed(const char* Name)
 	alGenSources(1, &NewSource.Handle);
 
 	//If successful, store the source in the map and select it.
-    if(NewSource.Handle && alGetError() == AL_NO_ERROR)
+	if(NewSource.Handle && alGetError() == AL_NO_ERROR)
 	{
 		SourceList.push_back(NewSource);
 		Source = &SourceList.back();
@@ -91,7 +91,7 @@ void Extension::SourceSelectByHandle(int Handle)
 
 void Extension::SourcePlay()
 {
-    if(IsSource() && Source->Buffer)
+	if(IsSource() && Source->Buffer)
 	{
 		//Buffer holds a stream.
 		if(Source->Buffer->Type == BUFFER_TYPE_STREAM)
@@ -103,7 +103,7 @@ void Extension::SourcePlay()
 			alurePlaySourceStream(Source->Handle, Source->Buffer->Stream, 3, Looping ? -1 : 0, PlaySourceCallback, this);
 		}
 		//Buffer must be a sample.
-        else
+		else
 			alurePlaySource(Source->Handle, PlaySourceCallback, this);
 	}
 }
@@ -142,7 +142,7 @@ void Extension::SourceRewind()
 
 void Extension::SourceSetBuffer(const char* BufferName)
 {
-    if(IsSource())
+	if(IsSource())
 	{
 		//Find the buffer based on its name
 		ALBuffer* Buffer = BufferGetFromName(BufferName);
@@ -166,44 +166,44 @@ void Extension::SourceSetBuffer(const char* BufferName)
 
 void Extension::SourceSetPermanent(int Permanent)
 {
-    if(IsSource())
-    {
+	if(IsSource())
+	{
 		//If this is true, the source won't be automatically deleted after playback finished.
 		Source->Permanent = Permanent != 0;
-    }
+	}
 }
 
 void Extension::SourceSetLooping(int Looping)
 {
-    if(IsSource())
-    {
-        Looping = Looping ? AL_TRUE : AL_FALSE;
+	if(IsSource())
+	{
+		Looping = Looping ? AL_TRUE : AL_FALSE;
 		alSourcei(Source->Handle, AL_LOOPING, Looping);
-    }
+	}
 }
 
 void Extension::SourceSetGain(float Gain)
 {
-    if(IsSource())
-    {
-        Gain = max(0, min(1, Gain));
+	if(IsSource())
+	{
+		Gain = max(0, min(1, Gain));
 		alSourcef(Source->Handle, AL_GAIN, Gain);
-    }
+	}
 }
 
 void Extension::SourceSetPitch(float Pitch)
 {
-    if(IsSource())
-    {
-        Pitch = max(0.00001f, Pitch);
+	if(IsSource())
+	{
+		Pitch = max(0.00001f, Pitch);
 		alSourcef(Source->Handle, AL_PITCH, Pitch);
-    }
+	}
 }
 
 void Extension::SourceSetSampleOffset(int Sample)
 {
 	if(IsSource() && Source->Buffer)
-    {    
+	{    
 		Sample = max(0, Sample);
 		//Source plays a sample.
 		if(Source->Buffer->Type == BUFFER_TYPE_SAMPLE)
@@ -216,14 +216,14 @@ void Extension::SourceSetSampleOffset(int Sample)
 			//TODO MATHIAS
 			//alureSeekStream(Source->Buffer->Stream, Sample);
 		}
-    }
+	}
 }
 
 void Extension::SourceSetSecondOffset(float Second)
 {
 	if(IsSource() && Source->Buffer)
-    {
-        Second = max(0, Second);
+	{
+		Second = max(0, Second);
 		//Source plays a sample.
 		if(Source->Buffer->Type == BUFFER_TYPE_SAMPLE)
 		{
@@ -236,123 +236,123 @@ void Extension::SourceSetSecondOffset(float Second)
 			//TODO MATHIAS
 			//alureSeekStream(Source->Buffer->Stream, (alureInt64)(Second*Frequency));
 		}
-    }
+	}
 }
 
 void Extension::SourceSetPosition(float X, float Y, float Z)
 {
-    if(IsSource())
+	if(IsSource())
 		alSource3f(Source->Handle, AL_POSITION, X*Unit, Y*Unit, Z*Unit);
 }
 
 void Extension::SourceSetVelocity(float X, float Y, float Z)
 {
-    if(IsSource())
+	if(IsSource())
 		alSource3f(Source->Handle, AL_VELOCITY, X*Unit, Y*Unit, Z*Unit);
 }
 
 void Extension::SourceSetDirection(float X, float Y, float Z)
 {
-    if(IsSource())
-        alSource3f(Source->Handle, AL_DIRECTION, X, Y, Z);
+	if(IsSource())
+		alSource3f(Source->Handle, AL_DIRECTION, X, Y, Z);
 }
    
 void Extension::SourceSetConeAngles(float Inner, float Outer)
 {
-    if(IsSource())
-    {
-        alSourcef(Source->Handle, AL_CONE_INNER_ANGLE, Inner);
-        alSourcef(Source->Handle, AL_CONE_OUTER_ANGLE, Outer);
-    }
+	if(IsSource())
+	{
+		alSourcef(Source->Handle, AL_CONE_INNER_ANGLE, Inner);
+		alSourcef(Source->Handle, AL_CONE_OUTER_ANGLE, Outer);
+	}
 }
 
 void Extension::SourceSetConeOuterGain(float Gain)
 {
-    if(IsSource())
-    {
-        Gain = max(0, min(1, Gain));
-        alSourcef(Source->Handle, AL_CONE_OUTER_GAIN, Gain);
+	if(IsSource())
+	{
+		Gain = max(0, min(1, Gain));
+		alSourcef(Source->Handle, AL_CONE_OUTER_GAIN, Gain);
    }
 }
 
 void Extension::SourceSetConeOuterGainHF(float GainHF)
 {
-    if(IsSource())
-    {
-        GainHF = max(0, min(10, GainHF));
+	if(IsSource())
+	{
+		GainHF = max(0, min(10, GainHF));
 		alSourcef(Source->Handle, AL_CONE_OUTER_GAINHF, GainHF);
-    }
+	}
 }
 
 void Extension::SourceSetRelative(int Relative)
 {
-    if(IsSource())
-    {
-        Relative = Relative ? AL_TRUE : AL_FALSE;
-        alSourcei(Source->Handle, AL_SOURCE_RELATIVE, Relative);
-    }
+	if(IsSource())
+	{
+		Relative = Relative ? AL_TRUE : AL_FALSE;
+		alSourcei(Source->Handle, AL_SOURCE_RELATIVE, Relative);
+	}
 }
 
 void Extension::SourceSetMinimumGain(float Gain)
 {
-    if(IsSource())
-    {
-        Gain = max(0, min(1, Gain));
-        if(IsSource())
-            alSourcef(Source->Handle, AL_MIN_GAIN, Gain);
-    }
+	if(IsSource())
+	{
+		Gain = max(0, min(1, Gain));
+		if(IsSource())
+			alSourcef(Source->Handle, AL_MIN_GAIN, Gain);
+	}
 }
 
 void Extension::SourceSetMaximumGain(float Gain)
 {
-    if(IsSource())
-    {
-        Gain = max(0, min(1, Gain));
-        alSourcef(Source->Handle, AL_MAX_GAIN, Gain);
-    }
+	if(IsSource())
+	{
+		Gain = max(0, min(1, Gain));
+		alSourcef(Source->Handle, AL_MAX_GAIN, Gain);
+	}
 }
 
 void Extension::SourceSetReferenceDistance(float Distance)
 {
-    if(IsSource())
-    {
-        Distance = max(0, Distance*Unit);
-        alSourcef(Source->Handle, AL_REFERENCE_DISTANCE, Distance);
-    }
+	if(IsSource())
+	{
+		Distance = max(0, Distance*Unit);
+		alSourcef(Source->Handle, AL_REFERENCE_DISTANCE, Distance);
+	}
 }
 
 void Extension::SourceSetMaximumDistance(float Distance)
 {
-    if(IsSource())
-    {
-        Distance = max(0, Distance*Unit);
-        alSourcef(Source->Handle, AL_MAX_DISTANCE, Distance);
-    }
+	if(IsSource())
+	{
+		Distance = max(0, Distance*Unit);
+		alSourcef(Source->Handle, AL_MAX_DISTANCE, Distance);
+	}
 }
 
 void Extension::SourceSetRolloffFactor(float RolloffFactor)
 {
-    if(IsSource())
-    {
-        RolloffFactor = max(0, RolloffFactor);
-        alSourcef(Source->Handle, AL_ROLLOFF_FACTOR, RolloffFactor);
-    }
+	if(IsSource())
+	{
+		RolloffFactor = max(0, RolloffFactor);
+		alSourcef(Source->Handle, AL_ROLLOFF_FACTOR, RolloffFactor);
+	}
 }
 
 void Extension::SourceSetRoomRolloffFactor(float RolloffFactor)
 {
-    if(IsSource())
-    {
-        RolloffFactor = max(0, min(10, RolloffFactor));
+	if(IsSource())
+	{
+		RolloffFactor = max(0, min(10, RolloffFactor));
 		alSourcef(Source->Handle, AL_ROOM_ROLLOFF_FACTOR, RolloffFactor);
-    }
+	}
 }
 
 void Extension::SourceSetAirAbsorptionFactor(float AirAbsorption)
 {
 	if(IsSource())
 	{
-        AirAbsorption = max(0, min(10, AirAbsorption));
+		AirAbsorption = max(0, min(10, AirAbsorption));
 		alSourcef(Source->Handle, AL_AIR_ABSORPTION_FACTOR, AirAbsorption);
 	}
 }
@@ -433,12 +433,12 @@ bool Extension::SourceExists(const char* Name)
 
 int Extension::SourceSelectedGetHandle()
 {
-    return IsSource() ? Source->Handle : 0;
+	return IsSource() ? Source->Handle : 0;
 }
 
 char* Extension::SourceSelectedGetName()
 {
-    return IsSource() ? Runtime.CopyString(Source->Name.c_str()) : "";
+	return IsSource() ? Runtime.CopyString(Source->Name.c_str()) : "";
 }
 
 int Extension::SourceByNameGetHandle(const char* Name)
@@ -543,9 +543,9 @@ float Extension::SourceByNameGetDistance(const char* Name)
 		Position[2] -= ListenerPos[2];
 	}
 
-    //2. Calculate distance attenuation
-    Distance = sqrt(aluDotproduct(Position, Position));
-    ClampedDist = Distance;
+	//2. Calculate distance attenuation
+	Distance = sqrt(aluDotproduct(Position, Position));
+	ClampedDist = Distance;
 
 	switch(DistanceModel)
 	{

@@ -3,22 +3,22 @@ class Extension
 {
 public:
 
-    LPRDATA rdPtr;
-    LPRH    rhPtr;
+	LPRDATA rdPtr;
+	LPRH    rhPtr;
 
-    Edif::Runtime Runtime;
+	Edif::Runtime Runtime;
 
-    static const int MinimumBuild = 251;
+	static const int MinimumBuild = 251;
 
-    static const int OEFLAGS = OEFLAG_VALUES;
-    static const int OEPREFS = 0;
+	static const int OEFLAGS = OEFLAG_VALUES;
+	static const int OEPREFS = 0;
 
 	static const int Version = 2;
-    
-    static const int WindowProcPriority = 100;
+	
+	static const int WindowProcPriority = 100;
 
-    Extension(LPRDATA rdPtr, LPEDATA edPtr, fpcob cobPtr);
-    ~Extension();
+	Extension(LPRDATA rdPtr, LPEDATA edPtr, fpcob cobPtr);
+	~Extension();
 
 	//Handles to the currently selected objects.
 	ALSource*	Source;
@@ -37,41 +37,41 @@ public:
 
 	//A list of all devices used when opening one.
 	const ALchar*	DeviceList;
-    //Current device and its name.
-    ALCdevice*		Device;
+	//Current device and its name.
+	ALCdevice*		Device;
 	const ALchar*	DeviceName;
 	const ALchar*	EnumeratedDevice;
 	//The context that the device is working in (holds sources etc).
-    ALCcontext*		Context;
+	ALCcontext*		Context;
 
-    //Microphone input settings.
-    struct InputStruct
-    {
+	//Microphone input settings.
+	struct InputStruct
+	{
 		const ALchar*	DeviceList;
 		//Current recording device.
-        ALCdevice*      Device;
+		ALCdevice*      Device;
 		const ALchar*	DeviceName;
 		const ALchar*	EnumeratedDevice;
-        //To keep track. No way to ask OpenAL!
-        bool            Recording;
+		//To keep track. No way to ask OpenAL!
+		bool            Recording;
 		//Numbers used for recording.
-        ALuint          Frequency;
-        ALuint          Channels;
-        ALuint          Bits;
-        ALuint          BufferSamples;
+		ALuint          Frequency;
+		ALuint          Channels;
+		ALuint          Bits;
+		ALuint          BufferSamples;
 		ALsizei			FFTSize;
-        //Calculated from above settings.
-        ALuint          BlockAlign;
-        ALenum          Format;
-    } Input;
+		//Calculated from above settings.
+		ALuint          BlockAlign;
+		ALenum          Format;
+	} Input;
 
-    //Stores the meters per unit.
+	//Stores the meters per unit.
 	ALfloat		Unit;
 
-    //Callback stream.
-    ALubyte*    CallbackBuffer;
-    ALuint      CallbackAvailableBytes;
-    ALuint      CallbackWrittenBytes;
+	//Callback stream.
+	ALubyte*    CallbackBuffer;
+	ALuint      CallbackAvailableBytes;
+	ALuint      CallbackWrittenBytes;
 
 	//Microphone capture callback.
 	ALubyte*	CaptureBuffer;
@@ -88,7 +88,7 @@ public:
 	ALuint		EffectGetFromID(int ID);
 	ALenum		EffectGetParameterIndex(const char* Name);
 	ALSource*	SourceGetFromName(const char* Name);
-    void        SourceCreateEffectSlot(int Slot);
+	void        SourceCreateEffectSlot(int Slot);
 	bool		IsSource();
 
 	void		LinkACE();
@@ -96,7 +96,7 @@ public:
 	static void	Assert(ALboolean Statement);
 	static bool	GetError(const char* File, unsigned int Line);
 
-    //Actions
+	//Actions
 
 	void SetDistanceModel(int DistanceModel);
 	void SetDopplerFactor(float DopplerFctor);
@@ -113,12 +113,12 @@ public:
 	void CaptureDeviceOpen(const char* Name);
 	void CaptureDeviceClose();
 	void CaptureDeviceEnumerate();
-    void CaptureStart();
-    void CaptureStop();
+	void CaptureStart();
+	void CaptureStop();
 
 	void BufferCreateSampleForFile(const char* Name, const char* FilePath);
 	void BufferCreateStreamForFile(const char* Name, const char* FilePath);
-    void BufferCreateStreamForCapture(const char* Name);
+	void BufferCreateStreamForCapture(const char* Name);
 	void BufferCreateStreamForSignal(const char* Name, ALuint SampleRate, ALuint Channels, ALuint Bits, const char* Type, ALfloat Frequency, ALfloat ModulatorAmplitude, ALfloat ModulatorFrequency);
 	void BufferCreateStreamForCallback(const char* Name, ALuint SampleRate, ALuint Channels, ALuint Bits, ALuint BufferSize);
 	void BufferCallbackWriteBytes(int Bytes);
@@ -145,20 +145,20 @@ public:
 	void SourceSetGain(float Gain);
 	void SourceSetPitch(float Pitch);
 	void SourceSetLooping(int Looping);
-    void SourceSetSampleOffset(int Sample);
-    void SourceSetSecondOffset(float Second);
+	void SourceSetSampleOffset(int Sample);
+	void SourceSetSecondOffset(float Second);
 	void SourceSetPosition(float X, float Y, float Z);
 	void SourceSetVelocity(float X, float Y, float Z);
-    void SourceSetDirection(float X, float Y, float Z);
-    void SourceSetConeAngles(float Inner, float Outer);
-    void SourceSetConeOuterGain(float Gain);
+	void SourceSetDirection(float X, float Y, float Z);
+	void SourceSetConeAngles(float Inner, float Outer);
+	void SourceSetConeOuterGain(float Gain);
 	void SourceSetConeOuterGainHF(float GainHF);
-    void SourceSetRelative(int Relative);
-    void SourceSetMinimumGain(float Gain);
-    void SourceSetMaximumGain(float Gain);
-    void SourceSetReferenceDistance(float Distance);
-    void SourceSetMaximumDistance(float Distance);
-    void SourceSetRolloffFactor(float RolloffFactor);
+	void SourceSetRelative(int Relative);
+	void SourceSetMinimumGain(float Gain);
+	void SourceSetMaximumGain(float Gain);
+	void SourceSetReferenceDistance(float Distance);
+	void SourceSetMaximumDistance(float Distance);
+	void SourceSetRolloffFactor(float RolloffFactor);
 	void SourceSetRoomRolloffFactor(float RolloffFactor);
 	void SourceSetAirAbsorptionFactor(float AirAbsorption);
 	void SourceLoadDirectFilter();
@@ -173,7 +173,7 @@ public:
 	void EffectCreateRingModulator();
 	void EffectSelectByID(int ID);
 	void EffectSetFloatParameter(const char* Name, float Value);
-    void EffectSetIntParameter(const char* Name, int Value);
+	void EffectSetIntParameter(const char* Name, int Value);
 	void EffectLoadReverbPreset(const char* Preset);
 
 	void FilterCreateLowPass();
@@ -183,17 +183,17 @@ public:
 
 	void AuxEffectSlotCreate(int ID);
 	void AuxEffectSlotSelectByID(int ID);
-    void AuxEffectSlotSetGain(float Gain);
-    void AuxEffectSlotSetAutoAdjust(int Adjust);
-    void AuxEffectSlotLoadEffectByID(int ID);
+	void AuxEffectSlotSetGain(float Gain);
+	void AuxEffectSlotSetAutoAdjust(int Adjust);
+	void AuxEffectSlotLoadEffectByID(int ID);
 
-    //Conditions
+	//Conditions
 
 	bool SourceOnStopped();
 	bool SourceExists(const char* Name);
 	bool SourceIsPlaying(const char* Name);
 
-    //Expressions
+	//Expressions
 
 	char* DeviceGetEnumerated();
 
@@ -204,8 +204,8 @@ public:
 	int BufferCallbackGetAddress();
 	int BufferCallbackGetBytes();
 
-    int SourceSelectedGetHandle();
-    char* SourceSelectedGetName();
+	int SourceSelectedGetHandle();
+	char* SourceSelectedGetName();
 	int SourceByNameGetHandle(const char* Name);
 	float SourceByNameGetSecondOffset(const char* Name);
 	float SourceByNameGetSecondLength(const char* Name);
@@ -217,16 +217,16 @@ public:
 
 	//Edif stuff
 
-    void Action(int ID, LPRDATA rdPtr, long param1, long param2);
-    long Condition(int ID, LPRDATA rdPtr, long param1, long param2);
-    long Expression(int ID, LPRDATA rdPtr, long param);
+	void Action(int ID, LPRDATA rdPtr, long param1, long param2);
+	long Condition(int ID, LPRDATA rdPtr, long param1, long param2);
+	long Expression(int ID, LPRDATA rdPtr, long param);
 
-    short Handle();
-    short Display();
+	short Handle();
+	short Display();
 
-    short Pause();
-    short Continue();
+	short Pause();
+	short Continue();
 
-    bool Save(HANDLE File);
-    bool Load(HANDLE File);
+	bool Save(HANDLE File);
+	bool Load(HANDLE File);
 };

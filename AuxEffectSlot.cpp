@@ -50,8 +50,8 @@ void Extension::AuxEffectSlotSetGain(float Gain)
 	if(!alIsAuxiliaryEffectSlot(AuxSlot))
 		return;
 
-    Gain = max(0, min(1, Gain));
-    alAuxiliaryEffectSlotf(AuxSlot, AL_EFFECTSLOT_GAIN, Gain);
+	Gain = max(0, min(1, Gain));
+	alAuxiliaryEffectSlotf(AuxSlot, AL_EFFECTSLOT_GAIN, Gain);
 }
 
 void Extension::AuxEffectSlotSetAutoAdjust(int Adjust)

@@ -41,7 +41,7 @@ BOOL WINAPI DllMain(HINSTANCE hDLL, DWORD dwReason, LPVOID lpReserved)
 			break;
 
 		// The calling process is detaching the DLL from its address space.
-	    case DLL_PROCESS_DETACH:
+		case DLL_PROCESS_DETACH:
 			break;
 	}
 	
@@ -58,7 +58,7 @@ BOOL WINAPI DllMain(HINSTANCE hDLL, DWORD dwReason, LPVOID lpReserved)
 //
 extern "C" int WINAPI DLLExport Initialize(mv _far *mV, int quiet)
 {
-    Edif::Init(mV);
+	Edif::Init(mV);
 
 
 	// No error
@@ -93,7 +93,7 @@ extern "C" int WINAPI DLLExport Free(mv _far *mV)
 //
 int	WINAPI DLLExport LoadObject(mv _far *mV, LPCSTR fileName, LPEDATA edPtr, int reserved)
 {
-    Edif::Init(mV, edPtr);
+	Edif::Init(mV, edPtr);
 
 
 	return 0;

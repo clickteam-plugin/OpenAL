@@ -40,7 +40,7 @@ void Extension::BufferCreateStreamForFile(const char* Name, const char* FilePath
 		DeleteBuffer(Buffer);
 
 		//Let Alure load the file and generate the buffer object.
-	    alureStreamSizeIsMicroSec(true);
+		alureStreamSizeIsMicroSec(true);
 		Buffer->Stream = alureCreateStreamFromFile(FilePath, 250000, 0, 0);
 		Buffer->Type = BUFFER_TYPE_STREAM;
 	}
@@ -58,8 +58,8 @@ void Extension::BufferCreateStreamForCapture(const char* Name)
 		CaptureRecalculateSettings();
 
 		//Let Alure load the file and generate the buffer object.
-	    alureStreamSizeIsMicroSec(false);
-        Buffer->Stream = alureCreateStreamFromCallback(StreamCaptureCallback, this, Input.Format, Input.Frequency, Input.BufferSamples, 0, 0);
+		alureStreamSizeIsMicroSec(false);
+		Buffer->Stream = alureCreateStreamFromCallback(StreamCaptureCallback, this, Input.Format, Input.Frequency, Input.BufferSamples, 0, 0);
 		Buffer->Type = BUFFER_TYPE_STREAM;
 	}
 }
@@ -88,7 +88,7 @@ void Extension::BufferCreateStreamForSignal(const char* Name, ALuint SampleRate,
 	Buffer->Signal = new ALSignal(SampleRate, Channels, Bits, IntType, Frequency, ModulatorAmplitude, ModulatorFrequency);
 
 	//Let Alure load the file and generate the buffer object.
-    alureStreamSizeIsMicroSec(false);
+	alureStreamSizeIsMicroSec(false);
 	GetALError();
 	Buffer->Stream = alureCreateStreamFromCallback(StreamSignalCallback, Buffer->Signal, alureGetSampleFormat(Channels, Bits, 0), SampleRate, 1024*Channels*Bits/8, 0, 0);
 	Buffer->Type = BUFFER_TYPE_STREAM;
