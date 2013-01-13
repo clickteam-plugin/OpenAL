@@ -1,0 +1,612 @@
+{
+	"About":
+	{
+	    "Name": "OpenAL",
+	    "Author": "Looki",
+	    "Copyright": "Copyright (C) 2011 Lukas Meller",
+	    "Comment": "Allows you to play WAV and OGG files and microphone input in a 3D surround environment with realistic realtime effects. Based on OpenAL Soft and Alure by Chris Robinson.",
+	    "URL": "",
+	    "Help": "",
+
+	    "Identifier": "OPAL"
+	},
+
+	"ActionMenu":
+	[
+		"Separator",
+		["Devices",
+			["Playback",
+				[53, "Open"],
+				[54, "Close"],
+				"Separator",
+				[76, "Enumerate"]
+			],
+			["Capture",
+				[31, "Open"],
+				[48, "Close"],
+				"Separator",
+				[77, "Enumerate"],
+				"Separator",
+				[51, "Set bit depth"],
+				[50, "Set channel count"],
+				[49, "Set frequency"],
+				[52, "Set buffer size"]
+			]
+		],
+		["Capture",
+			[34, "Start capture"],
+			[35, "Stop capture"]
+		],
+		["Inputs",
+			["File",
+				[3, "Create sample"],
+				[22, "Create stream"]
+			],
+			["Callback",
+				[74, "Create stream"],
+				"Separator",
+				[75, "Return written bytes"]
+			],
+			["Capture",
+				[33, "Create stream"]
+			],
+			["Signal",
+				[72, "Create stream"]
+			]
+		],
+		"Separator",
+		["Effects",
+			["Echo",
+				[17, "Create"]
+			],
+			["Reverb",
+				[10, "Create"],
+				"Separator",
+				[16, "Load preset"],
+				"Separator",
+				[36, "Set reverb adjust"]
+			],
+			["Ring modulator",
+				[18, "Create"]
+			],
+			"Separator",
+			[55, "Select by ID"],
+			"Separator",
+			[32, "Set float parameter"],
+			[19, "Set integer parameter"],
+			"Separator",
+			[20, "Set gain"]
+		],
+		["Filters",
+			[64, "Create low-pass"],
+			"Separator",
+			[78, "Select by ID"],
+			"Separator",
+			[21, "Set gain"],
+			[65, "Set HF gain"]
+		],
+		"Separator",
+		["World",
+			[58, "Set meters per unit"],
+			"Separator",
+			[28, "Set doppler factor"],
+			[29, "Set speed of sound"],
+			"Separator",
+			[30, "Set distance model"]
+		],
+		["Listener",
+			[9, "Set gain"],
+			"Separator",
+			[0, "Set position"],
+			[26, "Set velocity"],
+			[25, "Set orientation"]
+		],
+		["Sources",
+			["Create",
+				[1, "Source"],
+				[56, "Source with input"],
+				"Separator",
+				[2, "Named source"],
+				[57, "Named source with input"]
+			],
+			["Select",
+				[62, "By handle"],
+				[7, "By name"]
+			],
+			"Separator",
+			[5, "Assign input"],
+			[73, "Set permanent"],
+			"Separator",
+			["Playback",
+				[4, "Play"],
+				[13, "Pause"],
+				[23, "Resume"],
+				[15, "Rewind"],
+				[14, "Stop"],
+				"Separator",
+				[8, "Set looping"],
+				[24, "Set pitch"],
+				"Separator",
+				[37, "Set sample offset"],
+				[38, "Set second offset"]
+			],
+			["Gain",
+				[12, "Set gain"],
+				[43, "Set minimum gain"],
+				[44, "Set maximum gain"]
+			],
+			"Separator",
+			["Environment",
+				[6, "Set position"],
+				[27, "Set velocity"],
+				"Separator",
+				[39, "Set direction"],
+				[40, "Set cone angles"],
+				[41, "Set outer cone gain"],
+				[59, "Set outer cone HF gain"],
+				"Separator",
+				[42, "Set relative"]
+			],
+			["Distance model",
+				[45, "Set reference distance"],
+				[46, "Set maximum distance"],
+				"Separator",
+				[47, "Set rolloff factor"],
+				[60, "Set room rolloff factor"],
+				"Separator",
+				[61, "Set air absorption factor"]
+			],
+			"Separator",
+			["Direct filter",
+				[63, "Load filter"]
+			],
+			["FX slots",
+				[71, "Assign effect"],
+				[68, "Assign effect with filter"],
+				"Separator",
+				[69, "Set gain adjust"],
+				[70, "Set HF gain adjust"]
+			]
+		],
+		"Separator"
+	],
+
+	"ConditionMenu":
+	[
+		"Separator",
+		["Devices",
+			[5, "On playback device"],
+			[6, "On capture device"]
+		],
+		["Capture",
+			[3, "On data captured"]
+		],
+		"Separator",
+		["Input",
+			[4, "On callback"]
+		],
+		"Separator",
+		["Source (any)",
+			[2, "On source stopped"]
+		],
+		["Source (by name)",
+			[0, "Source exists ?"],
+			[1, "Source is playing ?"]
+		]
+	],
+
+	"ExpressionMenu":
+	[
+		"Separator",
+		["Devices",
+			[9, "Get enumerated playback device"],
+			[10, "Get enumerated capture device"]
+		],
+		["Capture",
+			[7, "Get data address"],
+			[8, "Get data byte count"]
+		],
+		"Separator",
+		["Input",
+			[5, "Get callback address"],
+			[6, "Get callback byte count"]
+		],
+		"Separator",
+		["Source (by name)",
+			[0, "Get handle"],
+			"Separator",
+			[1, "Get second offset"],
+			[2, "Get second length"],
+			"Separator",
+			[11, "Get distance"]
+		],
+		["Source (selected)",
+			[4, "Get handle"],
+			[3, "Get name"]
+		],
+		["Effect",
+			[12, "Get last"]
+		],
+		["Filter",
+			[13, "Get last"]
+		],
+		"Separator"
+	],
+
+	"Actions":
+	[
+	    { "Title": "Set listener position to (%0,%1,%2)",
+		"Parameters": [
+		  ["Float", "X position"],
+		  ["Float", "Y position"],
+		  ["Float", "Z position"]
+		] },
+	    { "Title": "Create source" },
+	    { "Title": "Create source %0",
+	  	"Parameters": [
+		  ["Text", "Name"]
+		] },
+		{ "Title": "Create sample input %0 for file %1",
+	  	"Parameters": [
+		  ["Text", "Name"],
+		  ["File", "File"]
+		] },
+	    { "Title": "Play source" },
+		{ "Title": "Assign input %0 to source",
+	  	"Parameters": [
+		  ["Text", "Input name"]
+		] },
+	    { "Title": "Set source position to (%0,%1,%2)",
+		"Parameters": [
+		  ["Float", "X position"],
+		  ["Float", "Y position"],
+		  ["Float", "Z position"]
+		] },
+		{ "Title": "Select source %0",
+	  	"Parameters": [
+		  ["Text", "Name"]
+		] },
+	    { "Title": "Set source looping to %0",
+		"Parameters": [
+		  ["Integer", "Looping (0: No, 1: Yes)"]
+		] },
+	    { "Title": "Set listener gain to %0",
+		"Parameters": [
+		  ["Float", "Gain (0 - 1)"]
+		] },
+	    { "Title": "Create reverb effect" },
+	    { "Title": "Load effect %0 into slot",
+		"Parameters": [
+		  ["Text", "Effect name"]
+		] },
+	    { "Title": "Set source gain to %0",
+		"Parameters": [
+		  ["Float", "Gain (0 - 1)"]
+		] },
+	    { "Title": "Pause source" },
+	    { "Title": "Stop source" },
+	    { "Title": "Rewind source" },
+	    { "Title": "Load reverb preset %0",
+		"Parameters": [
+		  ["Text", "Preset (Bathroom, Livingroom, Concerthall, Cave, Underwater, Hangar, ...)"]
+		] },
+	    { "Title": "Create echo effect" },
+	    { "Title": "Create ring modulator effect" },
+	    { "Title": "Set effect integer parameter %0 to %1",
+		"Parameters": [
+		  ["Text", "Name"],
+		  ["Integer", "Value"]
+		] },
+		{ "Title": "Set effect gain to %0",
+		"Parameters": [
+		  ["Float", "Gain (0 - 1, Default: 1)"]
+		] },
+	    { "Title": "Set filter gain to %0",
+		"Parameters": [
+		  ["Float", "Gain (0 - 1, Default: 1)"]
+		] },
+		{ "Title": "Create stream input %0 for file %1",
+	  	"Parameters": [
+		  ["Text", "Name"],
+		  ["File", "File"]
+		] },
+	    { "Title": "Resume source" },
+	    { "Title": "Set source pitch to %0",
+		"Parameters": [
+		  ["Float", "Pitch (Default: 1)"]
+		] },
+	    { "Title": "Set listener orientation to target (%0,%1,%2) up (%3,%4,%5)",
+		"Parameters": [
+		  ["Float", "X target vector"],
+		  ["Float", "Y target vector"],
+		  ["Float", "Z target vector"],
+		  ["Float", "X up-vector"],
+		  ["Float", "Y up-vector"],
+		  ["Float", "Z up-vector"]
+		] },
+	    { "Title": "Set listener velocity to (%0,%1,%2)",
+		"Parameters": [
+		  ["Float", "X velocity"],
+		  ["Float", "Y velocity"],
+		  ["Float", "Z velocity"]
+		] },
+	    { "Title": "Set source velocity to (%0,%1,%2)",
+		"Parameters": [
+		  ["Float", "X velocity"],
+		  ["Float", "Y velocity"],
+		  ["Float", "Z velocity"]
+		] },
+	    { "Title": "Set doppler factor to %0",
+		"Parameters": [
+		  ["Float", "Doppler factor (Default: 1)"]
+		] },
+	    { "Title": "Set speed of sound to %0",
+		"Parameters": [
+		  ["Float", "Speed of sound (Default: 343.3)"]
+		] },
+	    { "Title": "Set distance model to %0",
+		"Parameters": [
+		  ["Integer", "Distance model (0: None, 1: Inverse, 2: Inverse Clamped, 3: Linear, 4: Linear Clamped, 5: Exponent, 6: Exponent Clamped, Default: 2)"]
+		] },
+	    { "Title": "Open capture device %0",
+		"Parameters": [
+		  ["Text", "Device name (Empty: Default)"]
+		] },
+	    { "Title": "Set effect float parameter %0 to %1",
+		"Parameters": [
+		  ["Text", "Name"],
+		  ["Float", "Value"]
+		] },
+		{ "Title": "Create stream input %0 for capture",
+	  	"Parameters": [
+		  ["Text", "Name"]
+		] },
+	    { "Title": "Start capture" },
+	    { "Title": "Stop capture" },
+	    { "Title": "Set effect reverb adjust to %0",
+		"Parameters": [
+		  ["Integer", "Adjust reverb automatically (0: No, 1: Yes, Default: 1)"]
+		] },
+	    { "Title": "Set source sample offset to %0",
+		"Parameters": [
+		  ["Integer", "Sample offset"]
+		] },
+	    { "Title": "Set source second offset to %0",
+		"Parameters": [
+		  ["Float", "Second offset"]
+		] },
+	    { "Title": "Set source direction to (%0,%1,%2)",
+		"Parameters": [
+		  ["Float", "X direction"],
+		  ["Float", "Y direction"],
+		  ["Float", "Z direction"]
+		] },
+	    { "Title": "Set source cone angles to (%0,%1)",
+		"Parameters": [
+		  ["Float", "Inner angle (Default: 360)"],
+		  ["Float", "Outer angle (Default: 360)"]
+		] },
+	    { "Title": "Set source outer cone gain to %0",
+		"Parameters": [
+		  ["Float", "Outer cone gain (0 - 1, Default: 0)"]
+		] },
+	    { "Title": "Set source relative to %0",
+		"Parameters": [
+		  ["Integer", "Relative to listener (0: No, 1: Yes, Default: 0)"]
+		] },
+	    { "Title": "Set source minimum gain to %0",
+		"Parameters": [
+		  ["Float", "Minimum gain (0 - 1, Default: 0)"]
+		] },
+	    { "Title": "Set source maximum gain to %0",
+		"Parameters": [
+		  ["Float", "Maximum gain (0 - 1, Default: 1)"]
+		] },
+	    { "Title": "Set source reference distance to %0",
+		"Parameters": [
+		  ["Float", "Reference distance (0 - Infinite, Default: 1)"]
+		] },
+	    { "Title": "Set source maximum distance to %0",
+		"Parameters": [
+		  ["Float", "Maximum distance (0 - Infinite, Default: Infinite)"]
+		] },
+	    { "Title": "Set source rolloff factor to %0",
+		"Parameters": [
+		  ["Float", "Rolloff factor (0 - Infinite, Default: 1)"]
+		] },
+	    { "Title": "Close capture device" },
+	    { "Title": "Set capture frequency to %0",
+		"Parameters": [
+		  ["Integer", "Frequency (Hz, Default: 22050)"]
+		] },
+	    { "Title": "Set capture channel count to %0",
+		"Parameters": [
+		  ["Integer", "Channel count (1: Mono, 2: Stereo, Default: 1)"]
+		] },
+	    { "Title": "Set capture bit depth to %0",
+		"Parameters": [
+		  ["Integer", "Bit depth (8, 16, Default: 16)"]
+		] },
+	    { "Title": "Set capture buffer size to %0",
+		"Parameters": [
+		  ["Integer", "Buffer size in samples (Default: 1024)"]
+		] },
+	    { "Title": "Open device %0",
+		"Parameters": [
+		  ["Text", "Name (Empty: default)"]
+		] },
+	    { "Title": "Close device" },
+	    { "Title": "Select effect %0",
+		"Parameters": [
+		  ["Integer", "Effect ID"]
+		] },
+	    { "Title": "Create source with input %0",
+	  	"Parameters": [
+		  ["Text", "Input name"]
+		] },
+	    { "Title": "Create source %0 with input %1",
+	  	"Parameters": [
+		  ["Text", "Name"],
+		  ["Text", "Input name"]
+		] },
+	    { "Title": "Set meters per unit %0",
+		"Parameters": [
+		  ["Float", "Meters per unit (Default: 1)"]
+		] },
+	    { "Title": "Set source outer cone HF gain to %0",
+		"Parameters": [
+		  ["Float", "Outer cone high frequency gain (0 - 10, Default: 0)"]
+		] },
+	    { "Title": "Set source room rolloff factor to %0",
+		"Parameters": [
+		  ["Float", "Room rolloff factor (0 - 10, Default: 0)"]
+		] },
+	    { "Title": "Set source air absorption factor to %0",
+		"Parameters": [
+		  ["Float", "Air absorption factor (0 - 10, Default: 0)"]
+		] },
+		{ "Title": "Select source %0",
+	  	"Parameters": [
+		  ["Integer", "Handle"]
+		] },
+	    { "Title": "Load filter %0 into source",
+		"Parameters": [
+		  ["Text", "Filter name"]
+		] },
+	    { "Title": "Create low-pass filter %0",
+		"Parameters": [
+		  ["Text", "Name"]
+		] },
+	    { "Title": "Set filter HF gain to %0",
+		"Parameters": [
+		  ["Float", "High frequency gain (0 - 1, Default: 1)"]
+		] },
+	    { "Title": "Create auxiliary effect slot %0",
+		"Parameters": [
+		  ["Text", "Name"]
+		] },
+	    { "Title": "Select auxiliary effect slot %0",
+		"Parameters": [
+		  ["Text", "Name"]
+		] },
+	    { "Title": "Assign effect %1 with filter %2 to FX slot %0",
+		"Parameters": [
+		  ["Integer", "Slot ID (0 - 3)"],
+		  ["Integer", "Effect ID"],
+		  ["Integer", "Filter ID"]
+		] },
+	    { "Title": "Set FX slot gain adjust to %0",
+		"Parameters": [
+		  ["Integer", "Automatically adjust gain (0: No, 1: Yes, Default: 1)"]
+		] },
+	    { "Title": "Set source FX slot HF gain adjust to %0",
+		"Parameters": [
+		  ["Integer", "Automatically adjust high frequency gain (0: No, 1: Yes, Default: 1)"]
+		] },
+	    { "Title": "Assign effect %1 to FX slot %0",
+		"Parameters": [
+		  ["Integer", "Slot ID (0 - 3)"],
+		  ["Integer", "Effect ID"]
+		] },
+		{ "Title": "Create stream input %0 for signal format (%1,%2,%3) settings (%4,%5,%6,%7)",
+	  	"Parameters": [
+		  ["Text", "Name"],
+		  ["Integer", "Sample rate (Hz)"],
+		  ["Integer", "Channel count (1: Mono, 2: Stereo)"],
+		  ["Integer", "Bit depth (8, 16)"],
+		  ["Text", "Type (Sine, Square, Sawtooth, Triangle, White Noise)"],
+		  ["Float", "Frequency (Hz)"],
+		  ["Float", "Modulator amplitude"],
+		  ["Float", "Modulator frequency (Hz)"]
+		] },
+	    { "Title": "Set source permanent to %0",
+		"Parameters": [
+		  ["Integer", "Permanent (0: No, 1: Yes, Default: 0)"]
+		] },
+		{ "Title": "Create stream input %0 for callback format (%1,%2,%3,%4)",
+	  	"Parameters": [
+		  ["Text", "Name"],
+		  ["Integer", "Sample rate (Hz)"],
+		  ["Integer", "Channel count (1: Mono, 2: Stereo)"],
+		  ["Integer", "Bit depth (8, 16)"],
+		  ["Integer", "Buffer size in bytes"]
+		] },
+	    { "Title": "Return %0 written bytes to callback",
+		"Parameters": [
+		  ["Integer", "Number of written bytes"]
+		] },
+	    { "Title": "Enumerate playback devices" },
+	    { "Title": "Enumerate capture devices" },
+	    { "Title": "Select filter %0",
+		"Parameters": [
+		  ["Integer", "Filter ID"]
+		] },
+	],
+
+	"Conditions":
+	[
+		{ "Title":	"%o: Source %0 exists ?",
+		"Parameters": [
+			["Text", "Name"]
+		] },
+		{ "Title":	"%o: Source %0 is playing ?",
+		"Parameters": [
+			["Text", "Name"]
+		] },
+		{ "Title":	"%o: On source stopped",
+			"Triggered": true },
+		{ "Title":	"%o: On data captured",
+			"Triggered": true },
+		{ "Title":	"%o: On input callback",
+			"Triggered": true },
+		{ "Title":	"%o: On playback device",
+			"Triggered": true },
+		{ "Title":	"%o: On capture device",
+			"Triggered": true }
+	],
+
+	"Expressions":
+	[
+		{ "Title": "SourceHandleFromName(",
+	  	"Returns": "Integer",
+	    "Parameters": [
+	    	["Text", "Name"]
+	    ] },
+	 	{ "Title": "SourceSecOffset(",
+	  	"Returns": "Float",
+	    "Parameters": [
+	    	["Text", "Name"]
+	    ] },
+	 	{ "Title": "SourceSecLength(",
+	  	"Returns": "Float",
+	    "Parameters": [
+	    	["Text", "Name"]
+	    ] },
+		{ "Title": "SourceSelectedName$(",
+	  	"Returns": "Text" },
+		{ "Title": "SourceSelectedHandle(",
+	  	"Returns": "Integer" },
+		{ "Title": "InputCallbackAddress(",
+	  	"Returns": "Integer" },
+		{ "Title": "InputCallbackByteCount(",
+	  	"Returns": "Integer" },
+		{ "Title": "CaptureDataAddress(",
+	  	"Returns": "Integer" },
+		{ "Title": "CaptureDataByteCount(",
+	  	"Returns": "Integer" },
+		{ "Title": "EnumPlaybackDevice$(",
+	  	"Returns": "Text" },
+		{ "Title": "EnumCaptureDevice$(",
+	  	"Returns": "Text" },
+		{ "Title": "SourceDistance(",
+	  	"Returns": "Float",
+	    "Parameters": [
+	    	["Text", "Name"]
+	    ] },
+		{ "Title": "LastEffect(",
+	  	"Returns": "Integer" },
+		{ "Title": "LastFilter(",
+	  	"Returns": "Integer" }
+	],
+
+}
