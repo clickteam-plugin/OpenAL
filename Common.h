@@ -4,6 +4,8 @@
    #define MMFEXT       // MMF2, MMF2 Dev
 // #define PROEXT       // MMF2 Dev only
 
+#define ANSISDK 1
+
 //OpenAL includes
 #define AL_LIBTYPE_STATIC
 #define AL_ALEXT_PROTOTYPES
