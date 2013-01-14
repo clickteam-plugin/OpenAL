@@ -107,7 +107,7 @@ ALuint StreamSignalCallback(void* UserData, ALubyte* Buffer, ALuint AvailableByt
 		Signal->ModulatorPhase += ModulatorFrequency/SampleRate/Channels;
 
 		//Avoid clipping.
-		Value *= 0.95f;
+		Value *= 0.99f;
 
 		//Store the calculated value as 16-bit.
 		if(Bits == 16)
