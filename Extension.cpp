@@ -289,6 +289,8 @@ void Extension::LinkACE()
 	LinkAction(76, DeviceEnumerate);
 	LinkAction(77, CaptureDeviceEnumerate);
 	LinkAction(78, FilterSelectByID);
+	LinkAction(79, BufferCreateSampleForMemory);
+	LinkAction(80, BufferCreateSampleForMMF);
 	
 	LinkCondition(0, SourceExists);
 	LinkCondition(1, SourceIsPlaying);

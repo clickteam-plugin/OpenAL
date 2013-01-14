@@ -46,6 +46,44 @@ void Extension::BufferCreateStreamForFile(const char* Name, const char* FilePath
 	}
 }
 
+void Extension::BufferCreateSampleForMemory(const char* Name, const ALubyte* Address, unsigned int Size)
+{
+	//Do not allow empty names.
+	if(*Name)
+	{
+		//Select the buffer for editing.
+		ALBuffer* Buffer = &BufferMap[Name];
+		DeleteBuffer(Buffer);
+
+		//Let Alure generate the buffer object.
+		Buffer->Handle = alureCreateBufferFromMemory(Address, Size);
+		Buffer->Type = BUFFER_TYPE_SAMPLE;
+	}
+}
+
+void Extension::BufferCreateSampleForMMF(const char* Name, const char* MMFName)
+{
+	//Find the MMF sound with the given name.
+	unsigned int MMFID = FindSndFromName(rhPtr->rhIdAppli, SP_WAVE, MMFName);
+
+	//Do not allow empty names.
+	if(*Name && MMFID)
+	{
+		//Select the buffer for editing.
+		ALBuffer* Buffer = &BufferMap[Name];
+		DeleteBuffer(Buffer);
+
+		//Get MMF sound's data + size.
+		Sound MMFSound;
+		GetSoundInfo(rhPtr->rhIdAppli, MMFID, &MMFSound);
+		BYTE* Data = GetSoundDataPtr(rhPtr->rhIdAppli, MMFID);
+
+		//Let Alure generate the buffer object.
+		Buffer->Handle = alureCreateBufferFromMemory(Data, MMFSound.snSize-MMFSound.snNameSize);
+		Buffer->Type = BUFFER_TYPE_SAMPLE;
+	}
+}
+
 void Extension::BufferCreateStreamForCapture(const char* Name)
 {
 	//Do not allow empty names.

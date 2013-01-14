@@ -42,13 +42,21 @@
 				[3, "Create sample"],
 				[22, "Create stream"]
 			],
+			["MMF sample",
+				[80, "Create sample"]
+			],
+			["Memory",
+				[79, "Create sample"]
+			],
+			"Separator",
+			["Capture",
+				[33, "Create stream"]
+			],
+			"Separator",
 			["Callback",
 				[74, "Create stream"],
 				"Separator",
 				[75, "Return written bytes"]
-			],
-			["Capture",
-				[33, "Create stream"]
 			],
 			["Signal",
 				[72, "Create stream"]
@@ -546,6 +554,17 @@
 		"Parameters": [
 		  ["Integer", "Filter ID"]
 		] },
+		{ "Title": "Create sample input %0 for memory (%1, %2)",
+		"Parameters": [
+		  ["Text", "Name"],
+		  ["Integer", "Memory address"],
+		  ["Integer", "Memory size"]
+		] },
+		{ "Title": "Create sample input %0 for MMF sample %1",
+		"Parameters": [
+		  ["Text", "Name"],
+		  ["Text", "MMF sample name"]
+		] }
 	],
 
 	"Conditions":

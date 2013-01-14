@@ -118,6 +118,8 @@ public:
 
 	void BufferCreateSampleForFile(const char* Name, const char* FilePath);
 	void BufferCreateStreamForFile(const char* Name, const char* FilePath);
+	void BufferCreateSampleForMemory(const char* Name, const ALubyte* Address, unsigned int Size);
+	void BufferCreateSampleForMMF(const char* Name, const char* MMFName);
 	void BufferCreateStreamForCapture(const char* Name);
 	void BufferCreateStreamForSignal(const char* Name, ALuint SampleRate, ALuint Channels, ALuint Bits, const char* Type, ALfloat Frequency, ALfloat ModulatorAmplitude, ALfloat ModulatorFrequency);
 	void BufferCreateStreamForCallback(const char* Name, ALuint SampleRate, ALuint Channels, ALuint Bits, ALuint BufferSize);
