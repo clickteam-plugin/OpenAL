@@ -221,6 +221,14 @@
 		],
 		"Separator",
 		[14, "Get source count"],
+		["Source (by handle)",
+			[17, "Get name"],
+			"Separator",
+			[18, "Get second offset"],
+			[19, "Get second length"],
+			"Separator",
+			[20, "Get distance"]
+		],
 		["Source (by index)",
 			[15, "Get handle"],
 			[16, "Get name"]
@@ -591,30 +599,30 @@
 
 	"Expressions":
 	[
-		{ "Title": "SourceHandleFromName(",
+		{ "Title": "SrcHandleFromName(",
 		"Returns": "Integer",
 		"Parameters": [
 			["Text", "Name"]
 		] },
-		{ "Title": "SourceSecOffset(",
+		{ "Title": "SrcSecOffsetFromName(",
 		"Returns": "Float",
 		"Parameters": [
 			["Text", "Name"]
 		] },
-		{ "Title": "SourceSecLength(",
+		{ "Title": "SrcSecLengthFromName(",
 		"Returns": "Float",
 		"Parameters": [
 			["Text", "Name"]
 		] },
-		{ "Title": "SourceSelectedName$(",
+		{ "Title": "SrcSelName$(",
 		"Returns": "Text" },
-		{ "Title": "SourceSelectedHandle(",
+		{ "Title": "SrcSelHandle(",
 		"Returns": "Integer" },
-		{ "Title": "InputCallbackAddress(",
+		{ "Title": "InputCallbackAddr(",
 		"Returns": "Integer" },
 		{ "Title": "InputCallbackByteCount(",
 		"Returns": "Integer" },
-		{ "Title": "CaptureDataAddress(",
+		{ "Title": "CaptureDataAddr(",
 		"Returns": "Integer" },
 		{ "Title": "CaptureDataByteCount(",
 		"Returns": "Integer" },
@@ -622,7 +630,7 @@
 		"Returns": "Text" },
 		{ "Title": "EnumCaptureDevice$(",
 		"Returns": "Text" },
-		{ "Title": "SourceDistance(",
+		{ "Title": "SrcDistanceFromName(",
 		"Returns": "Float",
 		"Parameters": [
 			["Text", "Name"]
@@ -631,18 +639,38 @@
 		"Returns": "Integer" },
 		{ "Title": "LastFilter(",
 		"Returns": "Integer" },
-		{ "Title": "SourceCount(",
+		{ "Title": "SrcCount(",
 		"Returns": "Integer" },
-		{ "Title": "SourceHandleFromIndex(",
+		{ "Title": "SrcHandleFromIndex(",
 		"Returns": "Integer",
 		"Parameters": [
 			["Integer", "Index"]
 		] },
-		{ "Title": "SourceNameFromIndex$(",
+		{ "Title": "SrcNameFromIndex$(",
 		"Returns": "Text",
 		"Parameters": [
 			["Integer", "Index"]
-		] }
+		] },
+		{ "Title": "SrcName$(",
+		"Returns": "Text",
+		"Parameters": [
+			["Integer", "Handle"]
+		] },
+		{ "Title": "SrcSecOffset(",
+		"Returns": "Float",
+		"Parameters": [
+			["Integer", "Handle"]
+		] },
+		{ "Title": "SrcSecLength(",
+		"Returns": "Float",
+		"Parameters": [
+			["Integer", "Handle"]
+		] },
+		{ "Title": "SrcDistance(",
+		"Returns": "Float",
+		"Parameters": [
+			["Integer", "Handle"]
+		] },
 	],
 
 }

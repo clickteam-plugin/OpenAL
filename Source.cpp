@@ -1,6 +1,7 @@
 
 #include "Common.h"
 #include "AluStuff.h"
+#include <algorithm>
 
 //Quick function that checks if a source is selected.
 bool Extension::IsSource()
@@ -8,21 +9,28 @@ bool Extension::IsSource()
 	return Source && Source->Handle;//&& alIsSource(Source->Handle);
 }
 
+//Verifies that a given source handle is valid.
+bool Extension::IsSource(ALSource* Handle)
+{
+	return Handle && (find(SourceList.begin(), SourceList.end(), Handle) != SourceList.end());
+}
+
 ALSource* Extension::SourceGetFromName(const char* Name)
 {
-	for(list<ALSource>::iterator it = SourceList.begin(); it != SourceList.end(); ++it)
+	for(list<ALSource*>::iterator it = SourceList.begin(); it != SourceList.end(); ++it)
 	{
 		//A source with the name was found, return its handle.
-		if(it->Name == Name)
-			return &(*it);
+		if((*it)->Name == Name)
+			return *it;
 	}
-
 
 	//Nothing found, return zero.
 	return 0;
 }
 
-/* Actions */
+/*
+	Actions
+*/
 
 void Extension::SourceCreate()
 {
@@ -33,15 +41,15 @@ void Extension::SourceCreate()
 void Extension::SourceCreateNamed(const char* Name)
 {
 	//Create a new source.
-	ALSource NewSource;
-	NewSource.Name = Name;
-	alGenSources(1, &NewSource.Handle);
+	ALSource* NewSource = new ALSource;
+	NewSource->Name = Name;
+	alGenSources(1, &NewSource->Handle);
 
 	//If successful, store the source in the map and select it.
-	if(NewSource.Handle && alGetError() == AL_NO_ERROR)
+	if(NewSource->Handle && alGetError() == AL_NO_ERROR)
 	{
 		SourceList.push_back(NewSource);
-		Source = &SourceList.back();
+		Source = NewSource;
 	}
 } 
 
@@ -60,11 +68,11 @@ void Extension::SourceCreateNamedWithBuffer(const char* Name, const char* Buffer
 void Extension::SourceSelectByName(const char* Name)
 {
 	//Loop through all sources and find one with a matching name.
-	for(list<ALSource>::iterator it = SourceList.begin(); it != SourceList.end(); ++it)
+	for(list<ALSource*>::iterator it = SourceList.begin(); it != SourceList.end(); ++it)
 	{
-		if(!strcmp(it->Name.c_str(), Name))
+		if(!strcmp((*it)->Name.c_str(), Name))
 		{
-			Source = &*it;
+			Source = *it;
 			return;
 		}
 	}
@@ -76,11 +84,11 @@ void Extension::SourceSelectByName(const char* Name)
 void Extension::SourceSelectByHandle(int Handle)
 {
 	//Loop through all sources and find one with a matching handle.
-	for(list<ALSource>::iterator it = SourceList.begin(); it != SourceList.end(); ++it)
+	for(list<ALSource*>::iterator it = SourceList.begin(); it != SourceList.end(); ++it)
 	{
-		if(it->Handle == Handle)
+		if((*it)->Handle == Handle)
 		{
-			Source = &*it;
+			Source = *it;
 			return;
 		}
 	}
@@ -404,7 +412,9 @@ void Extension::SourceSetAuxiliarySendGainHFAutoAdjust(int Adjust)
 	alSourcei(Source->Handle, AL_AUXILIARY_SEND_FILTER_GAINHF_AUTO, Adjust);
 }
 
-/* Conditions */
+/*
+	Conditions
+*/
 
 bool Extension::SourceOnStopped()
 {
@@ -429,16 +439,18 @@ bool Extension::SourceExists(const char* Name)
 	return SourceGetFromName(Name) != 0;
 }
 
-/* Expressions */
+/* 
+	Expressions
+*/
 
 int Extension::SourceGetCount()
 {
 	return SourceList.size();
 }
 
-int Extension::SourceSelectedGetHandle()
+ALSource* Extension::SourceSelectedGetHandle()
 {
-	return IsSource() ? Source->Handle : 0;
+	return IsSource() ? Source : 0;
 }
 
 char* Extension::SourceSelectedGetName()
@@ -446,88 +458,61 @@ char* Extension::SourceSelectedGetName()
 	return IsSource() ? Runtime.CopyString(Source->Name.c_str()) : "";
 }
 
-int Extension::SourceByIndexGetHandle(unsigned int Index)
+char* Extension::SourceByHandleGetName(ALSource* Handle)
 {
-	if(Index >= SourceList.size())
-		return -1;
-
-	list<ALSource>::iterator it = SourceList.begin();
-	advance(it, Index);
-
-	return (*it).Handle;
-}
-
-char* Extension::SourceByIndexGetName(unsigned int Index)
-{
-	if(Index >= SourceList.size())
+	if(!IsSource(Handle))
 		return "";
 
-	list<ALSource>::iterator it = SourceList.begin();
-	advance(it, Index);
-
-	return Runtime.CopyString((*it).Name.c_str());
+	return Runtime.CopyString(Handle->Name.c_str());
 }
 
-int Extension::SourceByNameGetHandle(const char* Name)
+
+float Extension::SourceByHandleGetSecondOffset(ALSource* Handle)
 {
-	ALSource* FoundSource = SourceGetFromName(Name);
-
-	if(!FoundSource)
-		return 0;
-
-	return FoundSource->Handle;
-}
-
-float Extension::SourceByNameGetSecondOffset(const char* Name)
-{
-	ALSource* FoundSource = SourceGetFromName(Name);
-
-	if(!FoundSource)
+	if(!IsSource(Handle))
 		return 0.0f;
 
 	//Source is a sample.
-	if(FoundSource->Buffer->Type == BUFFER_TYPE_SAMPLE)
+	if(Source->Buffer->Type == BUFFER_TYPE_SAMPLE)
 	{
 		float Pos;
-		alGetSourcef(FoundSource->Handle, AL_SEC_OFFSET, &Pos);
+		alGetSourcef(Source->Handle, AL_SEC_OFFSET, &Pos);
 		return Pos;
 	}
 	//Source is a stream.
-	else
+	else	
 	{
-		alureStream* Stream = FoundSource->Buffer->Stream;
+		alureStream* Stream = Handle->Buffer->Stream;
 		if(!Stream)
 			return 0.0f;
 		//Get the sample offset and convert it to seconds.
 		//TODO MATHIAS
-		alureInt64 Pos = 1;// alureGetStreamPos(Stream);
+		alureInt64 Pos = 0;// alureGetStreamPos(Stream);
 		ALsizei Frequency = alureGetStreamFrequency(Source->Buffer->Stream);
 		return (float)Pos/Frequency;
 	}
 }
 
-float Extension::SourceByNameGetSecondLength(const char* Name)
+float Extension::SourceByHandleGetSecondLength(ALSource* Handle)
 {
-	ALSource* FoundSource = SourceGetFromName(Name);
-
-	if(!FoundSource)
+	if(!IsSource(Handle))
 		return 0.0f;
 
 	//Source is a sample.
-	if(FoundSource->Buffer->Type == BUFFER_TYPE_SAMPLE)
+	if(Handle->Buffer->Type == BUFFER_TYPE_SAMPLE)
 	{
 		//Get the buffer size in bytes and convert it to seconds.
 		ALint Size, Bits, Channels, Frequency;
-		alGetBufferi(FoundSource->Buffer->Handle, AL_SIZE, &Size);
-		alGetBufferi(FoundSource->Buffer->Handle, AL_BITS, &Bits);
-		alGetBufferi(FoundSource->Buffer->Handle, AL_CHANNELS, &Channels);
-		alGetBufferi(FoundSource->Buffer->Handle, AL_FREQUENCY, &Frequency);
+		alGetBufferi(Handle->Buffer->Handle, AL_SIZE, &Size);
+		alGetBufferi(Handle->Buffer->Handle, AL_BITS, &Bits);
+		alGetBufferi(Handle->Buffer->Handle, AL_CHANNELS, &Channels);
+		alGetBufferi(Handle->Buffer->Handle, AL_FREQUENCY, &Frequency);
 		return (float)Size/(Bits*Channels*Frequency/8);
 	}
 	//Source is a stream.
 	else
 	{
-		alureStream* Stream = FoundSource->Buffer->Stream;
+		alureStream* Stream = Handle->Buffer->Stream;
 		if(!Stream)
 			return 0.0f;
 		//Get the sample offset and convert it to seconds.
@@ -537,11 +522,9 @@ float Extension::SourceByNameGetSecondLength(const char* Name)
 	}
 }
 
-float Extension::SourceByNameGetDistance(const char* Name)
+float Extension::SourceByHandleGetDistance(ALSource* Handle)
 {
-	ALSource* FoundSource = SourceGetFromName(Name);
-
-	if(!FoundSource)
+	if(!IsSource(Handle))
 		return 0.0f;
 		
 	ALint DistanceModel;
@@ -555,13 +538,13 @@ float Extension::SourceByNameGetDistance(const char* Name)
 	DistanceModel = alGetInteger(AL_DISTANCE_MODEL);
 	alGetListenerfv(AL_POSITION, ListenerPos);
 
-	alGetSourcefv(FoundSource->Handle, AL_POSITION, Position);
-	alGetSourcef(FoundSource->Handle, AL_MIN_GAIN, &MinVolume);
-	alGetSourcef(FoundSource->Handle, AL_MAX_GAIN, &MaxVolume);
-	alGetSourcef(FoundSource->Handle, AL_REFERENCE_DISTANCE, &MinDist);
-	alGetSourcef(FoundSource->Handle, AL_MAX_DISTANCE, &MaxDist);
-	alGetSourcef(FoundSource->Handle, AL_ROLLOFF_FACTOR, &Rolloff);
-	alGetSourcei(FoundSource->Handle, AL_SOURCE_RELATIVE, &IsRelative);
+	alGetSourcefv(Handle->Handle, AL_POSITION, Position);
+	alGetSourcef(Handle->Handle, AL_MIN_GAIN, &MinVolume);
+	alGetSourcef(Handle->Handle, AL_MAX_GAIN, &MaxVolume);
+	alGetSourcef(Handle->Handle, AL_REFERENCE_DISTANCE, &MinDist);
+	alGetSourcef(Handle->Handle, AL_MAX_DISTANCE, &MaxDist);
+	alGetSourcef(Handle->Handle, AL_ROLLOFF_FACTOR, &Rolloff);
+	alGetSourcei(Handle->Handle, AL_SOURCE_RELATIVE, &IsRelative);
 
 	if(!IsRelative)
 	{
@@ -617,4 +600,42 @@ float Extension::SourceByNameGetDistance(const char* Name)
 	}
 
 	return (MinDist/Attenuation - MinDist)*Unit;
+}
+
+
+ALSource* Extension::SourceByIndexGetHandle(unsigned int Index)
+{
+	if(Index >= SourceList.size())
+		return 0;
+
+	list<ALSource*>::iterator it = SourceList.begin();
+	advance(it, Index);
+
+	return *it;
+}
+
+char* Extension::SourceByIndexGetName(unsigned int Index)
+{
+	if(Index >= SourceList.size())
+		return "";
+
+	list<ALSource*>::iterator it = SourceList.begin();
+	advance(it, Index);
+
+	return Runtime.CopyString((*it)->Name.c_str());
+}
+
+float Extension::SourceByNameGetSecondOffset(const char* Name)
+{
+	return SourceByHandleGetSecondOffset(SourceGetFromName(Name));
+}
+
+float Extension::SourceByNameGetSecondLength(const char* Name)
+{
+	return SourceByHandleGetSecondLength(SourceGetFromName(Name));
+}
+
+float Extension::SourceByNameGetDistance(const char* Name)
+{
+	return SourceByHandleGetDistance(SourceGetFromName(Name));
 }

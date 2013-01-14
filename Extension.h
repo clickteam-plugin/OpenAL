@@ -27,7 +27,7 @@ public:
 	ALuint		AuxSlot;
 
 	//Object arrays that keep track of all OpenAL handles.
-	list<ALSource>          SourceList;
+	list<ALSource*>			SourceList;
 	map<string,ALBuffer>	BufferMap;
 	map<int,ALuint>			EffectMap;
 	map<int,ALuint>			FilterMap;
@@ -90,6 +90,7 @@ public:
 	ALSource*	SourceGetFromName(const char* Name);
 	void        SourceCreateEffectSlot(int Slot);
 	bool		IsSource();
+	bool		IsSource(ALSource* Handle);
 
 	void		LinkACE();
 	bool		GenericTrigger();
@@ -207,14 +208,21 @@ public:
 	int BufferCallbackGetBytes();
 
 	int SourceGetCount();
-	int SourceSelectedGetHandle();
+	ALSource* SourceSelectedGetHandle();
 	char* SourceSelectedGetName();
-	int SourceByNameGetHandle(const char* Name);
+
+	char* SourceByHandleGetName(ALSource* Handle);
+	float SourceByHandleGetSecondOffset(ALSource* Handle);
+	float SourceByHandleGetSecondLength(ALSource* Handle);
+	float SourceByHandleGetDistance(ALSource* Handle);
+	
 	float SourceByNameGetSecondOffset(const char* Name);
 	float SourceByNameGetSecondLength(const char* Name);
 	float SourceByNameGetDistance(const char* Name);
-	int SourceByIndexGetHandle(unsigned int Index);
+
+	ALSource* SourceByIndexGetHandle(unsigned int Index);
 	char* SourceByIndexGetName(unsigned int Index);
+
 
 	int EffectGetLast();
 

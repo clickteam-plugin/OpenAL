@@ -70,10 +70,11 @@ Extension::~Extension()
 	}
 
 	//Stop all running sources and free them.
-	for(list<ALSource>::iterator it = SourceList.begin(); it != SourceList.end(); ++it)
+	for(list<ALSource*>::iterator it = SourceList.begin(); it != SourceList.end(); ++it)
 	{
-		alureStopSource(it->Handle, false);
-		alDeleteSources(1, &it->Handle);
+		alureStopSource((*it)->Handle, false);
+		alDeleteSources(1, &((*it)->Handle));
+		delete *it;
 	}
 
 	//Free all auxiliary effect slots.
@@ -279,7 +280,7 @@ void Extension::LinkACE()
 	LinkCondition(5, GenericTrigger);
 	LinkCondition(6, GenericTrigger);
 
-	LinkExpression(0, SourceByNameGetHandle);
+	LinkExpression(0, SourceGetFromName);
 	LinkExpression(1, SourceByNameGetSecondOffset);
 	LinkExpression(2, SourceByNameGetSecondLength);
 	LinkExpression(3, SourceSelectedGetName);
@@ -296,4 +297,8 @@ void Extension::LinkACE()
 	LinkExpression(14, SourceGetCount);
 	LinkExpression(15, SourceByIndexGetName);
 	LinkExpression(16, SourceByIndexGetHandle);
+	LinkExpression(17, SourceByHandleGetName);
+	LinkExpression(18, SourceByHandleGetSecondOffset);
+	LinkExpression(19, SourceByHandleGetSecondLength);
+	LinkExpression(20, SourceByHandleGetDistance);
 }

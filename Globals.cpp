@@ -24,18 +24,19 @@ void DeleteBuffer(ALBuffer* Buffer)
 void PlaySourceCallback(void* UserData, ALuint SourceHandle)
 {
 	Extension* Ext = (Extension*)UserData;
-	for(list<ALSource>::iterator it = Ext->SourceList.begin(); it != Ext->SourceList.end(); ++it)
+	for(list<ALSource*>::iterator it = Ext->SourceList.begin(); it != Ext->SourceList.end(); ++it)
 	{
 		//Found the source in the list.
-		if(it->Handle == SourceHandle)
+		if((*it)->Handle == SourceHandle)
 		{
 			//Source stopped condition.
 			Ext->Runtime.GenerateEvent(2);
 
 			//If it's not permanent, delete it.
-			if(!it->Permanent)
+			if(!(*it)->Permanent)
 			{
 				alDeleteSources(1, &SourceHandle);
+				delete *it;
 				Ext->SourceList.erase(it);
 			}
 			break;
