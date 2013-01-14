@@ -175,27 +175,6 @@ long Extension::Expression(int ID, LPRDATA rdPtr, long param)
 	return 0;
 }
 
-bool Extension::GetError(const char* File, unsigned int Line)
-{
-#ifdef _DEBUG
-	printf("%s:%04d\n\t", File, Line);
-	ALenum Error = alGetError();
-	if(Error)
-		printf("OpenAL: %s (%#x)\n", alGetString(Error), Error);
-	else if(strcmp("No error", alureGetErrorString()))
-		printf("Alure: %s\n", alureGetErrorString());
-	else
-	{
-		printf("No error\n");
-		return true;
-	}
-
-	return false;
-#endif
-	
-	return true;
-}
-
 void Extension::Assert(ALboolean Statement)
 {
 	if(!Statement)
