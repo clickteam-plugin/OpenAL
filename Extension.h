@@ -204,12 +204,15 @@ public:
 	int BufferCallbackGetAddress();
 	int BufferCallbackGetBytes();
 
+	int SourceGetCount();
 	int SourceSelectedGetHandle();
 	char* SourceSelectedGetName();
 	int SourceByNameGetHandle(const char* Name);
 	float SourceByNameGetSecondOffset(const char* Name);
 	float SourceByNameGetSecondLength(const char* Name);
 	float SourceByNameGetDistance(const char* Name);
+	int SourceByIndexGetHandle(unsigned int Index);
+	char* SourceByIndexGetName(unsigned int Index);
 
 	int EffectGetLast();
 

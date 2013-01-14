@@ -312,4 +312,7 @@ void Extension::LinkACE()
 	LinkExpression(11, SourceByNameGetDistance);
 	LinkExpression(12, EffectGetLast);
 	LinkExpression(13, FilterGetLast);
+	LinkExpression(14, SourceGetCount);
+	LinkExpression(15, SourceByIndexGetName);
+	LinkExpression(16, SourceByIndexGetHandle);
 }

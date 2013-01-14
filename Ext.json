@@ -212,6 +212,11 @@
 			[6, "Get callback byte count"]
 		],
 		"Separator",
+		[14, "Get source count"],
+		["Source (by index)",
+			[15, "Get handle"],
+			[16, "Get name"]
+		],
 		["Source (by name)",
 			[0, "Get handle"],
 			"Separator",
@@ -606,7 +611,19 @@
 		{ "Title": "LastEffect(",
 		"Returns": "Integer" },
 		{ "Title": "LastFilter(",
-		"Returns": "Integer" }
+		"Returns": "Integer" },
+		{ "Title": "SourceCount(",
+		"Returns": "Integer" },
+		{ "Title": "SourceHandleFromIndex(",
+		"Returns": "Integer",
+		"Parameters": [
+			["Integer", "Index"]
+		] },
+		{ "Title": "SourceNameFromIndex$(",
+		"Returns": "Text",
+		"Parameters": [
+			["Integer", "Index"]
+		] }
 	],
 
 }

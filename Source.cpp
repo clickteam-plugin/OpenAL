@@ -431,6 +431,11 @@ bool Extension::SourceExists(const char* Name)
 
 /* Expressions */
 
+int Extension::SourceGetCount()
+{
+	return SourceList.size();
+}
+
 int Extension::SourceSelectedGetHandle()
 {
 	return IsSource() ? Source->Handle : 0;
@@ -439,6 +444,28 @@ int Extension::SourceSelectedGetHandle()
 char* Extension::SourceSelectedGetName()
 {
 	return IsSource() ? Runtime.CopyString(Source->Name.c_str()) : "";
+}
+
+int Extension::SourceByIndexGetHandle(unsigned int Index)
+{
+	if(Index >= SourceList.size())
+		return -1;
+
+	list<ALSource>::iterator it = SourceList.begin();
+	advance(it, Index);
+
+	return (*it).Handle;
+}
+
+char* Extension::SourceByIndexGetName(unsigned int Index)
+{
+	if(Index >= SourceList.size())
+		return "";
+
+	list<ALSource>::iterator it = SourceList.begin();
+	advance(it, Index);
+
+	return Runtime.CopyString((*it).Name.c_str());
 }
 
 int Extension::SourceByNameGetHandle(const char* Name)
